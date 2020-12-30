@@ -31,6 +31,7 @@ class CRF(nn.Module):
         self,
         n_ref: int,
         n_out: int,
+        dev: 'cuda',
         sxy_bf: float = 70,
         sc_bf: float = 12,
         compat_bf: float = 4,

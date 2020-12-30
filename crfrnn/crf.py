@@ -39,7 +39,6 @@ class CRF(nn.Module):
         num_iter: int = 5,
         normalize_final_iter: bool = True,
         trainable_kstd: bool = False,
-        dev: str = 'cuda',
     ):
         """Implements fast approximate mean-field inference for a
         fully-connected CRF with Gaussian edge potentials within a neural
@@ -95,7 +94,7 @@ class CRF(nn.Module):
         else:
             self.register_buffer("kstd", kstd)
 
-        self.register_buffer("gk", gkern(sxy_spatial, n_out, dev))
+        self.register_buffer("gk", gkern(sxy_spatial, n_out))
 
     def forward(self, unary, ref):
         def _bilateral(V, R):

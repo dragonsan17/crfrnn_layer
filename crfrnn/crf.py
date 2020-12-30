@@ -9,13 +9,13 @@ def gaussian_filter(ref, val, kstd):
     return gfilt(ref / kstd[:, :, None, None], val)
 
 
-def mgrid(h, w, dev):
+def mgrid(h, w, dev = 'cuda'):
     y = th.arange(0, h, device=dev).repeat(w, 1).t()
     x = th.arange(0, w, device=dev).repeat(h, 1)
     return th.stack([y, x], 0)
 
 
-def gkern(std, chans, dev):
+def gkern(std, chans, dev = 'cuda'):
     sig_sq = std ** 2
     r = sig_sq if (sig_sq % 2) else sig_sq - 1
     s = 2 * r + 1
@@ -31,7 +31,6 @@ class CRF(nn.Module):
         self,
         n_ref: int,
         n_out: int,
-        dev: 'cuda',
         sxy_bf: float = 70,
         sc_bf: float = 12,
         compat_bf: float = 4,
@@ -40,6 +39,7 @@ class CRF(nn.Module):
         num_iter: int = 5,
         normalize_final_iter: bool = True,
         trainable_kstd: bool = False,
+        dev: str = 'cuda',
     ):
         """Implements fast approximate mean-field inference for a
         fully-connected CRF with Gaussian edge potentials within a neural

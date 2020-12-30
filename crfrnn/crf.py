@@ -95,7 +95,7 @@ class CRF(nn.Module):
         else:
             self.register_buffer("kstd", kstd)
 
-        self.register_buffer("gk", gkern(sxy_spatial, n_out))
+        self.register_buffer("gk", gkern(sxy_spatial, n_out, dev))
 
     def forward(self, unary, ref):
         def _bilateral(V, R):
